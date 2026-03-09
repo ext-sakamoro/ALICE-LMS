@@ -1,0 +1,10 @@
+[package]
+name = "alice-lms"
+version = "1.0.0"
+edition = "2021"
+authors = ["Moroya Sakamoto"]
+license = "MIT"
+description = "ALICE Learning Management System: course, quiz, grading, certificates"
+
+[lib]
+crate-type = ["rlib"]
