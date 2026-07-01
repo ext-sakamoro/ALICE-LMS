@@ -5,6 +5,12 @@
 //!
 //! Course management, progress tracking, quiz engine, grading,
 //! certificates, and enrollment management.
+//! v1.1 で `signed_certificate` module (Ed25519 署名 + hash chain 学習証明) を追加。
+
+pub mod signed_certificate;
+pub use signed_certificate::{
+    CertificateTrail, LearningEventKind, LearningRecord, SignedLearningRecord,
+};
 
 use std::collections::HashMap;
 
@@ -1225,7 +1231,7 @@ mod tests {
     fn certificate_new() {
         let cert = Certificate::new(0, 1, 1, "Alice", "Rust 101", 4.0, "2026-03-09");
         assert_eq!(cert.student_name, "Alice");
-        assert_eq!(cert.gpa, 4.0);
+        assert!((cert.gpa - 4.0).abs() < f64::EPSILON);
     }
 
     // -- Enrollment tests ---------------------------------------------------
@@ -1643,7 +1649,12 @@ mod tests {
     fn module_with_many_lessons() {
         let mut m = Module::new(1, "Big", 0);
         for i in 0..50 {
-            m.add_lesson(Lesson::new(i, &format!("L{i}"), i as u32, 5));
+            m.add_lesson(Lesson::new(
+                i,
+                &format!("L{i}"),
+                u32::try_from(i).unwrap(),
+                5,
+            ));
         }
         assert_eq!(m.lesson_count(), 50);
         assert_eq!(m.total_duration(), 250);
