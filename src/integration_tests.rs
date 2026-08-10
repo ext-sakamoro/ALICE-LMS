@@ -11,15 +11,11 @@ use crate::certificate::*;
 use crate::course::*;
 use crate::enrollment::*;
 use crate::grading::*;
-use crate::ids::*;
 use crate::lesson::*;
 use crate::module::*;
 use crate::progress::*;
 use crate::quiz::*;
 use crate::system::*;
-use std::collections::HashMap;
-
-use super::*;
 
 // -- Lesson tests -------------------------------------------------------
 
